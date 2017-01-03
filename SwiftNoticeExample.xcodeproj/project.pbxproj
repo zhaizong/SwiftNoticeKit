@@ -13,6 +13,7 @@
 		2D27111C1E1A2D0000B26486 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D27111B1E1A2D0000B26486 /* Assets.xcassets */; };
 		2D27111F1E1A2D0000B26486 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D27111D1E1A2D0000B26486 /* LaunchScreen.storyboard */; };
 		2D2711281E1A33C000B26486 /* SwiftNoticeKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2711271E1A33C000B26486 /* SwiftNoticeKit.swift */; };
+		2DC02CE81E1BB4100010B854 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2DC02CE71E1BB4100010B854 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		2D27111E1E1A2D0000B26486 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D2711201E1A2D0000B26486 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D2711271E1A33C000B26486 /* SwiftNoticeKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftNoticeKit.swift; sourceTree = "<group>"; };
+		2DC02CE71E1BB4100010B854 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +42,7 @@
 		2D2711081E1A2D0000B26486 = {
 			isa = PBXGroup;
 			children = (
+				2DC02CE71E1BB4100010B854 /* README.md */,
 				2D2711131E1A2D0000B26486 /* SwiftNoticeExample */,
 				2D2711121E1A2D0000B26486 /* Products */,
 			);
@@ -150,6 +153,7 @@
 			files = (
 				2D2711171E1A2D0000B26486 /* ViewController.swift in Sources */,
 				2D2711281E1A33C000B26486 /* SwiftNoticeKit.swift in Sources */,
+				2DC02CE81E1BB4100010B854 /* README.md in Sources */,
 				2D2711151E1A2D0000B26486 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,6 +277,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = GF3C8WCZ4C;
 				INFOPLIST_FILE = SwiftNoticeExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Zly.SwiftNoticeExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -286,6 +291,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = GF3C8WCZ4C;
 				INFOPLIST_FILE = SwiftNoticeExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Zly.SwiftNoticeExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -312,6 +318,7 @@
 				2D2711251E1A2D0000B26486 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -89,6 +89,9 @@ class SwiftNoticeKit: NSObject {
   static var _timer: DispatchSource!
   static var _timerTimers = 0
   
+  /* 
+   just for iOS 8
+   */
   static var _degree: Double {
     get {
       return [0, 0, 180, 270, 90][UIApplication.shared.statusBarOrientation.hashValue] as Double
