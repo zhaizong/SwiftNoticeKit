@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     pleaseWait()
   }
   @IBAction func successButtonDidClick(_ sender: UIButton) {
+    successNotice("Success!")
   }
   @IBAction func errorButtonDidClick(_ sender: UIButton) {
   }
@@ -27,6 +28,7 @@ class ViewController: UIViewController {
   @IBAction func topButtonDidClick(_ sender: UIButton) {
   }
   @IBAction func clearAllButtonDidClick(_ sender: UIButton) {
+    clearAllNotice()
   }
   
   
