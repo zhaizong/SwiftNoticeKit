@@ -8,6 +8,9 @@ GUI library for displaying various popups (HUD), written in pure Swift.
 ```swift
 pleaseWait()
 successNotice("Success!")
+errorNotice("Error!")
+infoNotice("Info!")
+clearAllNotice()
 ```
 
 # Requirements
