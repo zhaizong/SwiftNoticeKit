@@ -17,6 +17,12 @@ extension UIResponder {
   func successNotice(_ text: String, autoClear: Bool = true) {
     SwiftNoticeKit._showNoticeWithText(.success, text: text, autoClear: autoClear, autoClearTime: 3)
   }
+  func errorNotice(_ text: String, autoClear: Bool = true) {
+    SwiftNoticeKit._showNoticeWithText(.error, text: text, autoClear: autoClear, autoClearTime: 3)
+  }
+  func infoNotice(_ text: String, autoClear: Bool = true) {
+    SwiftNoticeKit._showNoticeWithText(.info, text: text, autoClear: autoClear, autoClearTime: 3)
+  }
   func clearAllNotice() {
     SwiftNoticeKit._clear()
   }
@@ -32,6 +38,8 @@ enum NoticeType {
 class NoticeSDK {
   struct Cache {
     static var imageOfCheckmark: UIImage?
+    static var imageOfCross: UIImage?
+    static var imageOfInfo: UIImage?
   }
   
   class var imageOfCheckmark: UIImage {
@@ -47,6 +55,28 @@ class NoticeSDK {
     Cache.imageOfCheckmark = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     return Cache.imageOfCheckmark!
+  }
+  class var imageOfCross: UIImage {
+    guard Cache.imageOfCross == nil else { return Cache.imageOfCross! }
+    
+    UIGraphicsBeginImageContextWithOptions(CGSize(width: 36, height: 36), false, 0)
+    
+    draw(.error)
+    
+    Cache.imageOfCross = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return Cache.imageOfCross!
+  }
+  class var imageOfInfo: UIImage {
+    guard Cache.imageOfInfo == nil else { return Cache.imageOfInfo! }
+    
+    UIGraphicsBeginImageContextWithOptions(CGSize(width: 36, height: 36), false, 0)
+    
+    draw(.info)
+    
+    Cache.imageOfInfo = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return Cache.imageOfInfo!
   }
   
   class func draw(_ type: NoticeType) {
@@ -72,8 +102,33 @@ class NoticeSDK {
       checkmarkBezierPath.addLine(to: CGPoint(x: 27, y: 13))
       checkmarkBezierPath.move(to: CGPoint(x: 10, y: 18))
       checkmarkBezierPath.close()
-    default:
-      break
+    case .error: // draw X
+      checkmarkBezierPath.move(to: CGPoint(x: 10, y: 10))
+      checkmarkBezierPath.addLine(to: CGPoint(x: 26, y: 26))
+      checkmarkBezierPath.move(to: CGPoint(x: 26, y: 10))
+      checkmarkBezierPath.addLine(to: CGPoint(x: 10, y: 26))
+      checkmarkBezierPath.move(to: CGPoint(x: 10, y: 10))
+      checkmarkBezierPath.close()
+    case .info: // draw !
+      checkmarkBezierPath.move(to: CGPoint(x: 18, y: 6))
+      checkmarkBezierPath.addLine(to: CGPoint(x: 18, y: 23))
+      checkmarkBezierPath.move(to: CGPoint(x: 18, y: 6))
+      checkmarkBezierPath.close()
+      
+      UIColor.white.setStroke()
+      checkmarkBezierPath.stroke()
+      
+      let checkmarkBezierPath = UIBezierPath()
+      checkmarkBezierPath.move(to: CGPoint(x: 18, y: 29))
+      checkmarkBezierPath.addArc(withCenter: CGPoint(x: 18, y: 29),
+                                 radius: 1,
+                                 startAngle: 0,
+                                 endAngle: CGFloat(M_PI * 2),
+                                 clockwise: true)
+      checkmarkBezierPath.close()
+      
+      UIColor.white.setFill()
+      checkmarkBezierPath.fill()
     }
     UIColor.white.setStroke() // 设置笔画颜色
     checkmarkBezierPath.stroke() // 使用当前的绘图属性在路径上划一条线
@@ -158,9 +213,9 @@ class SwiftNoticeKit: NSObject {
     case .success:
       image = NoticeSDK.imageOfCheckmark
     case .error:
-      break
+      image = NoticeSDK.imageOfCross
     case .info:
-      break
+      image = NoticeSDK.imageOfInfo
     }
     
     let checkmarkImageView = UIImageView(frame: CGRect(origin: CGPoint(x: 27, y: 15), size: CGSize(width: 36, height: 36)))

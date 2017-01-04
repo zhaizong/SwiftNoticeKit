@@ -19,8 +19,10 @@ class ViewController: UIViewController {
     successNotice("Success!")
   }
   @IBAction func errorButtonDidClick(_ sender: UIButton) {
+    errorNotice("Error!")
   }
   @IBAction func infoButtonDidClick(_ sender: UIButton) {
+    infoNotice("Info!")
   }
   @IBAction func onlyTextButtonDidClick(_ sender: UIButton) {
   }
