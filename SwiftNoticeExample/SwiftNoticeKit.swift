@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+fileprivate let _topBarTag: Int = 1001
+
 extension UIResponder {
   
   func pleaseWait() { // no parameter
@@ -22,6 +24,12 @@ extension UIResponder {
   }
   func infoNotice(_ text: String, autoClear: Bool = true) {
     SwiftNoticeKit._showNoticeWithText(.info, text: text, autoClear: autoClear, autoClearTime: 3)
+  }
+  func noticeOnlyText(_ text: String) {
+    SwiftNoticeKit._showText(text)
+  }
+  func noticeTop(_ text: String, autoClear: Bool = true, autoClearTime: Int = 1) {
+    SwiftNoticeKit._noticeOnStatusBar(text, autoClear: autoClear, autoClearTime: autoClearTime)
   }
   func clearAllNotice() {
     SwiftNoticeKit._clear()
@@ -250,6 +258,92 @@ class SwiftNoticeKit: NSObject {
     
   }
   
+  static func _showText(_ text: String) {
+    let window = UIWindow()
+    window.backgroundColor = .clear
+    let mainView = UIView(frame: .zero)
+    mainView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+    mainView.layer.cornerRadius = 12
+    
+    let label = UILabel(frame: .zero)
+    label.text = text
+    label.textColor = .white
+    label.textAlignment = .center
+    label.font = UIFont.systemFont(ofSize: 14)
+    label.numberOfLines = 0
+    label.sizeToFit()
+    mainView.addSubview(label)
+    
+    let frame = CGRect(origin: .zero, size: CGSize(width: label.frame.width + 50, height: label.frame.height + 30))
+    window.frame = frame
+    mainView.frame = frame
+    
+    label.center = mainView.center
+    window.center = _rv.center
+    
+    if let version = Double(UIDevice.current.systemVersion), version < 9.0 {
+      window.center = _getRealCenter()
+      window.transform = CGAffineTransform(rotationAngle: CGFloat(_degree * M_PI / 180))
+    }
+    
+    window.windowLevel = UIWindowLevelAlert
+    window.isHidden = false
+    window.addSubview(mainView)
+    _windows.append(window)
+  }
+  
+  static func _noticeOnStatusBar(_ text: String, autoClear: Bool, autoClearTime: Int) {
+    let frame = UIApplication.shared.statusBarFrame
+    let window = UIWindow()
+    window.backgroundColor = .clear
+    let view = UIView(frame: .zero)
+    view.backgroundColor = UIColor(red: 0x6a / 0x100,
+                                   green: 0x64 / 0x100,
+                                   blue: 0x9f / 0x100,
+                                   alpha: 1)
+    
+    let label = UILabel(frame: frame)
+    label.text = text
+    label.textColor = .white
+    label.textAlignment = .center
+    label.font = UIFont.systemFont(ofSize: 14)
+    view.addSubview(label)
+    
+    window.frame = frame
+    view.frame = frame
+    
+    if let version = Double(UIDevice.current.systemVersion), version < 9.0 {
+      var array = [UIScreen.main.bounds.width, UIScreen.main.bounds.height]
+      array = array.sorted(by: <)
+      let screenWidth = array[0]
+      let screenHeight = array[1]
+      let x = [0, screenWidth / 2, screenWidth / 2, 10, screenWidth - 10][UIApplication.shared.statusBarOrientation.hashValue] as CGFloat
+      let y = [0, screenHeight - 10, screenHeight / 2, screenHeight / 2][UIApplication.shared.statusBarOrientation.hashValue] as CGFloat
+      window.center = CGPoint(x: x, y: y)
+      window.transform = CGAffineTransform(rotationAngle: CGFloat(_degree * M_PI / 180))
+    }
+    
+    window.windowLevel = UIWindowLevelStatusBar
+    window.isHidden = false
+    window.addSubview(view)
+    _windows.append(window)
+    
+    var origPoint = view.frame.origin
+    origPoint.y = -(view.frame.size.height)
+    let destPoint = view.frame.origin
+    view.tag = _topBarTag
+    
+    view.frame = CGRect(origin: origPoint, size: view.frame.size)
+    UIView.animate(withDuration: 0.3, animations: { 
+      view.frame = CGRect(origin: destPoint, size: view.frame.size)
+    }) { finished in
+      if autoClear {
+        let selector = #selector(_hideNotice(_:))
+        perform(selector, with: window, afterDelay: TimeInterval(autoClearTime))
+      }
+    }
+  }
+  
   static func _clear() {
 //    取消执行先前注册的 perform(_:with:afterDelay:) 实例方法。
     cancelPreviousPerformRequests(withTarget: self)
@@ -273,14 +367,25 @@ extension SwiftNoticeKit {
     }
   }
   
-  /*static func _hideNotice(_ sender: AnyObject?) {
+  static func _hideNotice(_ sender: AnyObject?) {
     if let window = sender as? UIWindow {
       if let v = window.subviews.first {
+        
         UIView.animate(withDuration: 0.2, animations: { 
-          
-        }, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
+          if v.tag == _topBarTag {
+            v.frame = CGRect(origin: CGPoint(x: 0, y: -v.frame.height), size: v.frame.size)
+          }
+          v.alpha = 0
+        }, completion: { finished in
+          if let index = _windows.index(where: { (item) -> Bool in
+            return item == window
+          }) {
+            _windows.remove(at: index)
+          }
+        })
+        
       }
     }
-  }*/
+  }
   
 }

@@ -25,9 +25,12 @@ class ViewController: UIViewController {
     infoNotice("Info!")
   }
   @IBAction func onlyTextButtonDidClick(_ sender: UIButton) {
+    noticeOnlyText("noticeOnlyText, noticeOnlyText, noticeOnlyText, noticeOnlyText, noticeOnlyText, noticeOnlyText")
   }
   
   @IBAction func topButtonDidClick(_ sender: UIButton) {
+    UIApplication.shared.setStatusBarHidden(true, with: .slide)
+    noticeTop("abcd!")
   }
   @IBAction func clearAllButtonDidClick(_ sender: UIButton) {
     clearAllNotice()
