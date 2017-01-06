@@ -10,6 +10,8 @@ pleaseWait()
 successNotice("Success!")
 errorNotice("Error!")
 infoNotice("Info!")
+noticeOnlyText("noticeOnlyText")
+noticeTop("abcd!")
 clearAllNotice()
 ```
 
